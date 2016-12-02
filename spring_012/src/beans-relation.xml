@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean的继承  adstract 抽象bean不能被ioc容器实例化 只能被继承，可以不设置class-->
+	<bean id="address" p:sheng="河北" p:shi="保定" abstract="true"></bean>
+	
+	<bean id="address2" class="spring.beans.Address" p:sheng="河北" p:shi="石家庄"></bean>
+	
+	<!-- 继承父bean -->
+	<bean id="address3" class="spring.beans.Address" parent="address"></bean>
+	
+	<!-- 继承父bean 并且重写 -->
+	<bean id="address4" class="spring.beans.Address" parent="address" p:shi="邯郸"></bean>
+	
+	<bean id="person" class="spring.beans.Person" p:name="scevecn" p:age="100" p:address-ref="address4"></bean>
+	
+	<bean id="car" class="spring.beans.Car" p:brand="奥迪" p:price="300009"></bean>
+	
+	<!-- bean的依赖 depen-on 先实例化前置bean，才可以实例当前bean -->
+	<bean id="person2" class="spring.beans.Person" p:name="scevecn2" p:age="102" p:address-ref="address3" depends-on="car"></bean>
+
+	<bean id="person3" class="spring.beans.Person" p:name="scevecn3" p:age="103" p:address-ref="address2"  p:car-ref="car" depends-on="car" ></bean>
+
+	<!-- 前置依赖于多个 Bean，则可以通过逗号，空格或的方式配置 Bean 的名称 -->
+	<bean id="person4" class="spring.beans.Person" p:name="scevecn3" p:age="103"  p:address-ref="address2"   p:car-ref="car" depends-on="car,address2" ></bean>
+	
+</beans>

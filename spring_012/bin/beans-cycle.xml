@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean生命周期  init-method初始化destroy-method销毁 -->
+	<bean id="car" class="spring.beans.Car" init-method="init" destroy-method="destory">
+		<property name="brand" value="凯迪拉克"></property>
+		<property name="price" value="11"></property>
+	</bean>
+	
+	<bean id="car2" class="spring.beans.Car" p:brand="QQ" p:price="2" ></bean>
+	
+	<!-- bean后置处理器 -->
+	<!-- 允许在调用初始化方法前后对 Bean 进行额外的处理. -->
+	<!-- Bean 后置处理器对 IOC 容器里的所有 Bean 实例逐一处理, 而非单一实例. 其典型应用是: 
+		检查 Bean 属性的正确性或根据特定的标准更改 Bean 的属性. -->
+	<!-- 不需要配置id ioc容器自动识别一个BeanPostProcesser -->
+	<bean  class="spring.beans.beanPostProcesser.MyBeanPostProcesser"></bean>
+</beans>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="car" class="spring.beans.Car" p:brand="宝驴" p:price="100"></bean>
+	
+	<!-- 原型 -->
+	<bean id="car2" class="spring.beans.Car" scope="prototype" p:brand="宝驴2" p:price="100"></bean>
+	
+	<!-- 单例，默认情况 -->
+	<bean id="car3" class="spring.beans.Car" scope="singleton" >
+		<property name="brand" value="宝驴3"></property>
+		<property name="price" value="102"></property>
+	</bean>
+
+</beans>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 
+	通过factoryBean 配置实例
+	class指向factorybean全路径类名
+	property配置传入参数
+	
+	返回类型，通过getObject的类类型来确定
+ -->
+	<bean id="factoryBean" class="spring.factory.CarFactoryBean" >
+		<property name="brand" value="傲滴滴滴"></property>
+	</bean>
+</beans>
