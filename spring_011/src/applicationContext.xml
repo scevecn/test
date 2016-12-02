@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	<!-- 通过命名空间p，为bean的属性赋值，需要先导入p命名空间 -->
+	<bean id="richPerson3" class="spring.bean.RichPerson" p:name="富人3" p:cars-ref="carList"></bean>	
+	
+	
+	
+	<!-- 配置独立的集合bean，以便其它的bean引用  需要导入util命名空间-->
+	<!-- 
+		使用基本的集合标签定义集合时, 不能将集合作为独立的 Bean 定义, 导致其他 Bean 无法引用该集合, 所以无法在不同 Bean 之间共享集合.
+		可以使用 util schema 里的集合标签定义独立的集合 Bean. 需要注意的是, 必须在 <beans> 根元素里添加 util schema 定义
+	 -->
+	<util:list id="carList">
+		<ref bean="car"/>
+		<ref bean="car2"/>
+	</util:list>
+	<bean name="richPerson2" class="spring.bean.RichPerson">
+		<property name="name" value="富人2"></property>
+		<property name="cars" ref="carList"></property>
+	</bean>
+	
+	<!-- 配置bean -->
+	<bean id="dataSource" class="spring.bean.DataSource">
+		<!-- 使用properties以及pros子节点，配置properties类型成员变量 -->
+		<property name="properties">
+			<props>
+				<prop key="user">cc</prop>
+				<prop key="password">123</prop>
+				<prop key="jdbcUrl">jdbc:1:1521</prop>
+				<prop key="driverClass">com.jiuqi.derver</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="regalPerson" class="spring.bean.RegalPerson">
+		<property name="name" value="高贵的人"></property>
+		<property name="carMap">
+		<!-- 使用Map节点及map的entry子节点，配置map类型的成员变量 -->
+			<map>
+				<entry key="redCar" value-ref="car"></entry>
+				<entry key="whiteCar" value-ref="car2"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="richPerson" class="spring.bean.RichPerson">
+		<property name="name" value = "富人"></property>
+		<property name="cars">
+			<list>
+				<ref bean="car"/>
+				<ref bean="car2"/>
+				<ref bean="car3"/>
+				<bean class="spring.bean.Car">
+			 		<constructor-arg value="FuTe"></constructor-arg>
+			 		<constructor-arg value="富人的car3"></constructor-arg>
+			 		<constructor-arg value="123" type="int"></constructor-arg>
+			 	</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="person" class="spring.bean.Person">
+		<property name="name" value="cc"></property>
+		<!-- 使用<ref>元素或属性，建立bean之间的关系 -->
+		<!-- 
+		<property name="car" ref="car3"></property>
+		-->
+		<!-- 
+		<property name="car" >
+			<ref bean="car3"/>
+		</property>
+		 -->
+		 <!-- 内部bean -->
+		 <property name="car">
+		 	<bean class="spring.bean.Car">
+		 		<constructor-arg value="FuTe"></constructor-arg>
+		 		<constructor-arg value="Hebei"></constructor-arg>
+		 		<constructor-arg value="123" type="int"></constructor-arg>
+		 	</bean>
+		 </property>
+	</bean>
+	
+	
+	<bean id="person2" class="spring.bean.Person">
+		<constructor-arg value="cc2"></constructor-arg>
+		<!-- null的赋值 -->
+		<!--
+		<constructor-arg ><null/></constructor-arg>
+		 -->
+		 <!-- 级联属性的配置 注意属性需要先初始化，后可以为级联属性赋值，否则有异常，与Struts2不同-->
+		<constructor-arg ref="car3"></constructor-arg>
+		<property name="car.maxSpeed" value="250"></property>
+	</bean>
+
+	<bean id="car" class="spring.bean.Car">
+		<constructor-arg value="aoDi" index="1"></constructor-arg>
+		<constructor-arg value="BeiJing" index="0"></constructor-arg>
+		<constructor-arg value="300000" index="2"></constructor-arg>
+	</bean>
+
+	<bean id="car2" class="spring.bean.Car">
+		<constructor-arg value="BaoMa" type="java.lang.String"></constructor-arg>
+		<constructor-arg value="ShangHai" type="String"></constructor-arg>
+		<constructor-arg value="100" type="double"></constructor-arg>
+	</bean>
+
+
+	<bean id="car3" class="spring.bean.Car">
+		<constructor-arg value="BaoMa" type="java.lang.String"></constructor-arg>
+		<constructor-arg type="String">
+			<value><![CDATA[<ShanDong!@#$%^&*>]]></value>
+		</constructor-arg>
+		<constructor-arg value="100" type="double"></constructor-arg>
+	</bean>
+
+</beans>
